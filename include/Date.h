@@ -17,6 +17,7 @@ public:
     void setMonth( short unsigned int month);
     unsigned int getYear();
     void setYear(unsigned int year);
+    bool isValid();
 };
 
 #endif

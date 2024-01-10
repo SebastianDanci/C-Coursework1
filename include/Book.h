@@ -1,8 +1,7 @@
 #ifndef BOOK_H
 #define BOOK_H
-#include "Member.h"
-#include "Date.h"
 #include <string>
+#include "global.h"
 
 class Book
 {

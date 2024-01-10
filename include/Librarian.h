@@ -1,7 +1,7 @@
 #ifndef LIBRARIAN_H
 #define LIBRARIAN_H
-#include "Person.h"
 #include <string>
+#include "global.h"
 
 class Librarian : public Person
 {
