@@ -1,5 +1,5 @@
-#ifndef DATE_H
-#define DATE_H
+#pragma once
+#include <string>
 
 class Date
 {
@@ -18,6 +18,6 @@ public:
     unsigned int getYear();
     void setYear(unsigned int year);
     bool isValid();
+    //amke it so that it will return a string form dd/mm/yyyy
+    std::string getDate();
 };
-
-#endif

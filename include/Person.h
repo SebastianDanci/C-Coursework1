@@ -1,8 +1,6 @@
-#ifndef PERSON_H
-#define PERSON_H
+#pragma once
 
 #include <string>
-#include <iostream>
 
 class Person
 {
@@ -24,5 +22,3 @@ public:
     std::string getEmail();
     void setEmail(std::string email);
 };
-
-#endif

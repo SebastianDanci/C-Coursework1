@@ -1,7 +1,6 @@
-#ifndef LIBRARIAN_H
-#define LIBRARIAN_H
+#pragma once
 #include <string>
-#include "global.h"
+#include "person.h"
 
 class Librarian : public Person
 {
@@ -21,5 +20,3 @@ public:
     int getSalary();
     void setSalary(int salary);
 };
-
-#endif

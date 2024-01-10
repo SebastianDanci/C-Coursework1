@@ -1,7 +1,10 @@
-#ifndef BOOK_H
-#define BOOK_H
+#pragma once
+
 #include <string>
-#include "global.h"
+#include <Date.h>
+#include <Member.h>
+class Member;
+class Date;
 
 class Book
 {
@@ -15,6 +18,7 @@ private:
     Member borrower;
 public:
     Book(int bookID, std::string bookName, std::string authorFirstName, std::string authorLastName);
+    Book();
     std::string getboookID();
     std::string getBookName();
     std::string getAuthorFirstName();
@@ -24,5 +28,3 @@ public:
     void returnBook();
     void borrowBook(Member borrower, Date dueDate);
 };
-
-#endif

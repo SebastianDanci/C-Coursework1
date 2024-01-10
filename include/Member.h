@@ -1,8 +1,9 @@
-#ifndef MEMBER_H
-#define MEMBER_H
+#pragma once
+
 #include <string>
 #include <vector>
-#include "global.h"
+#include "Person.h"
+class Book;
 
 
 class Member : public Person
@@ -19,5 +20,3 @@ std::string getMemberID();
 std::vector<Book> getBooksBorrowed();
 void setBooksBorrowed(Book book);
 };
-
-#endif
