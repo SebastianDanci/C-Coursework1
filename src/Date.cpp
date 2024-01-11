@@ -70,3 +70,32 @@ std::string Date::getDate() {
     snprintf(dateStr, sizeof(dateStr), "%02d/%02d/%04d", day, month, year);
     return std::string(dateStr);
 }
+
+int Date::countLeapYears(Date d) {
+    int years = d.getYear();
+    if (d.getMonth() <= 2) {
+        years--;
+    }
+    return years / 4 - years / 100 + years / 400;
+}
+
+int Date::getTotalDays(Date d) {
+    int monthDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+    long totalDays = d.getYear() * 365 + countLeapYears(d);
+
+    for (int i = 0; i < d.getMonth() - 1; i++) {
+        totalDays += monthDays[i];
+    }
+
+    totalDays += d.getDay();
+
+    return totalDays;
+}
+
+int Date::getDateDifference(Date dateOne, Date dateTwo) {
+    int totalDaysOne = getTotalDays(dateOne);
+    int totalDaysTwo = getTotalDays(dateTwo);
+
+    return totalDaysTwo - totalDaysOne;
+}

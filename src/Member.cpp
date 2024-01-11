@@ -29,5 +29,5 @@ void Member::setBooksBorrowed(Book book)
     if (!hasBorrowedThisBook(*this, book))
         booksLoaned.push_back(book);
     else
-        this->booksLoaned.erase(this->booksLoaned.begin() + std::stoi(book.getboookID()));
+        this->booksLoaned.erase(this->booksLoaned.begin() + std::stoi(book.getbookID()));
 }

@@ -13,7 +13,7 @@ Book::Book()
 {
     
 }
-std::string Book::getboookID()
+std::string Book::getbookID()
 {
     return std::to_string(bookID);
 }
@@ -51,6 +51,18 @@ void Book::returnBook()
 
 void Book::borrowBook(Member borrower, Date dueDate)
 {
+    bool canBorrow =true;
+    for(Book book : this->borrower.getBooksBorrowed())
+    {
+        if (this->getbookID() == book.getbookID()) canBorrow=false;
+    }
+    if(canBorrow)
+    {
     this->borrower = borrower;
     setDueDate(dueDate);
+    }
+    else
+    {
+        std::cout<<"Book with ID:"<<this->bookID<< " and name: "<<this->bookName<<" has already been borrowed.";
+    }
 }
