@@ -11,13 +11,13 @@ SOURCES = $(wildcard src/*.cpp)
 OBJECTS = $(SOURCES:src/%.cpp=bin/%.o)
 
 # Executable name
-EXECUTABLE = bin/library_system
+EXECUTABLE = bin/library
 
 .PHONY: all clean
 
 # Default make
 all: $(EXECUTABLE)
-	@echo "Library system has been compiled."
+	@echo "Library compiled."
 
 # Linking the executable from the object files
 $(EXECUTABLE): $(OBJECTS)
