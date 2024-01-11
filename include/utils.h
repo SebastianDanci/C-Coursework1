@@ -23,6 +23,7 @@ extern const std::string MENU_ISSUE_BOOK;
 extern const std::string MENU_RETURN_BOOK;
 extern const std::string MENU_DISPLAY_ALL_BOOKS;
 extern const std::string MENU_CALCULATE_FINE;
+extern const std::string MENU_MAKE_CHOICE;
 extern const std::vector<std::string> MENU;
 
 // Regex for user validation
