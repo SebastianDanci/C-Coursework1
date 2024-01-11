@@ -4,7 +4,6 @@
 #include "../include/utils.h"
 #include "../include/Date.h"
 
-
 Librarian::Librarian(int staffID, std::string name, std::string adress, std::string email, int salary)
 {
     this->staffid = staffID;
@@ -16,60 +15,67 @@ Librarian::Librarian(int staffID, std::string name, std::string adress, std::str
 
 Librarian::Librarian()
 {
-
 }
-
 void Librarian::addMember()
 {
     Member newMember(members.size() + 1, getUserString(GET_MEMBER_NAME, REGEX_ANY_STRING), getUserString(GET_MEMBER_ADDRESS, REGEX_ANY_STRING), getUserString(GET_MEMBER_EMAIL, REGEX_EMAIL));
     members.push_back(newMember);
-
 }
+
 void Librarian::issueBook(int memberID, int bookID)
 {
-    Book book = books[bookID - 1];
-    Member member = members[memberID - 1];
 
-    if(!hasBorrowedThisBook(member, book))member.setBooksBorrowed(book);
-
-    book.borrowBook(member, getUserDate(GET_LIBRARIAN_DUE_DATE));
-
-
+    if (books[bookID - 1].getDueDate().getDay() == 0)
+    {
+        Date date = getUserDate(GET_LIBRARIAN_DUE_DATE);
+        books[bookID - 1].borrowBook(members[memberID - 1], date);
+        members[memberID - 1].setBooksBorrowed(books[bookID - 1]);
+    }
+    else
+        std::cout << "\n The book has already been issued";
 }
+
 void Librarian::returnBook(int memberID, int bookID)
 {
-    Book book = books[bookID - 1];
-    Member member = members[memberID - 1];
-    book.returnBook();
-    member.setBooksBorrowed(book);
+    books[bookID - 1].returnBook();
+    members[memberID - 1].setBooksBorrowed(books[bookID - 1]);
 }
+
 void Librarian::displayBorrowedBooks(int memberID)
 {
-    Member member = members[memberID - 1];
-    for(Book book : member.getBooksBorrowed())
+    std::cout << "\n Member has borrowed: " << members[memberID - 1].getBooksBorrowed().size() << " books:";
+
+    if (members.size() > 0)
+        for (Book book : members[memberID - 1].getBooksBorrowed())
+        {
+            std::cout << "\n\nBook ID: " << book.getbookID() << ", Book name: " << book.getBookName() << ", Status: Borrowed, Due date: " << book.getDueDate().getDate() << std::endl;
+        }
+    else
     {
-        std::cout<<"\n\nBook ID: "<<book.getbookID()<<", Book name: "<<book.getBookName()<<", Status: Borrowed, Due date: "<<book.getDueDate().getDate()<<std::endl;
+        std::cout << std::endl
+                  << MENU_MEMBER_ISSUE;
     }
 }
 
 void Librarian::calcFine(int memberID)
 {
-    int totalFine=0;
-    Member member = members[memberID - 1];
-    for(Book book : member.getBooksBorrowed())
+    int totalFine = 0;
+    for (Book book : members[memberID - 1].getBooksBorrowed())
     {
         int fine = 0;
-        int difference = Date::getDateDifference(book.getDueDate(),currentDate);
-        if(difference < 0) fine = difference * -1;
-        std::cout<<"\nFor Book ID: "<<book.getbookID()<<", Book name: "<<book.getBookName()<<". The fine is: "<<fine<<"£";
+        int difference = Date::getDateDifference(book.getDueDate(), currentDate);
+        std::cout << "the difference is" << difference;
+        if (difference < 0)
+            fine = difference * -1;
+        std::cout << "\nFor Book ID: " << book.getbookID() << ", Book name: " << book.getBookName() << ". The fine is: " << fine << "£";
         totalFine += fine;
     }
-    std::cout<<"\n\nThe total fine is: "<<totalFine<<"£";
+    std::cout << "\n\nThe total fine is: " << totalFine << "£";
 }
 
 int Librarian::getStaffID()
 {
-    return this->staffid;
+    return staffid;
 }
 
 void Librarian::setStaffID(int staffID)
@@ -79,12 +85,10 @@ void Librarian::setStaffID(int staffID)
 
 int Librarian::getSalary()
 {
-    return this->salary;
+    return salary;
 }
 
 void Librarian::setSalary(int salary)
 {
     this->salary = salary;
 }
-
-

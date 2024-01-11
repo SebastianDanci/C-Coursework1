@@ -1,10 +1,8 @@
 #pragma once
 
 #include <string>
-#include <Date.h>
-#include <Member.h>
-class Member;
-class Date;
+#include "Date.h"
+#include "Member.h"
 
 class Book
 {
@@ -16,6 +14,7 @@ private:
     std::string bookType;
     Date dueDate;
     Member borrower;
+
 public:
     Book(int bookID, std::string bookName, std::string authorFirstName, std::string authorLastName);
     Book();

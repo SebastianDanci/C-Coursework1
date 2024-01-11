@@ -2,7 +2,7 @@
 CXX = g++
 
 # Compiler flags
-CXXFLAGS = -Wall -g -std=c++11 -Iinclude
+CXXFLAGS = -Wall -Wextra -g -std=c++17 -Iinclude
 
 # Source files
 SOURCES = $(wildcard src/*.cpp)
@@ -21,12 +21,19 @@ all: $(EXECUTABLE)
 
 # Linking the executable from the object files
 $(EXECUTABLE): $(OBJECTS)
-	$(CXX) $(OBJECTS) -o $(EXECUTABLE)
+	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $(EXECUTABLE)
 
 # Compiling source files to object files
 bin/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+# Creating the bin directory if it doesn't exist
+$(OBJECTS): | bin
+
+bin:
+	mkdir -p bin
+
 # Cleaning up the build
 clean:
 	rm -f $(OBJECTS) $(EXECUTABLE)
+	rm -rf bin

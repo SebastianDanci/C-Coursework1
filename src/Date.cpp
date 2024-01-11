@@ -2,21 +2,21 @@
 
 Date::Date(short unsigned int day, short unsigned int month, unsigned int year)
 {
-    this->day = day;
-    this->month = month;
-    this->year = year;
+    day = day;
+    month = month;
+    year = year;
 }
 
 Date::Date()
 {
-    this->day=0;
-    this->year=0;
-    this->month=0;
+    day = 0;
+    year = 0;
+    month = 0;
 }
 
 short unsigned int Date::getDay()
 {
-    return this->day;
+    return day;
 }
 
 void Date::setDay(short unsigned int day)
@@ -26,7 +26,7 @@ void Date::setDay(short unsigned int day)
 
 short unsigned int Date::getMonth()
 {
-    return this->month;
+    return month;
 }
 
 void Date::setMonth(short unsigned int month)
@@ -36,7 +36,7 @@ void Date::setMonth(short unsigned int month)
 
 unsigned int Date::getYear()
 {
-    return this->year;
+    return year;
 }
 
 void Date::setYear(unsigned int year)
@@ -44,47 +44,56 @@ void Date::setYear(unsigned int year)
     this->year = year;
 }
 
-bool Date::isValid() {
+bool Date::isValid()
+{
 
-    if (year < 1900 || year > 2100) {
+    if (year < 1900 || year > 2100)
+    {
         std::cout << "Invalid year. Please enter a year between 1900 and 2100." << std::endl;
         return false;
     }
     // Check month
-    if (month < 1 || month > 12) {
+    if (month < 1 || month > 12)
+    {
         std::cout << "Invalid month. Please enter a month between 1 and 12." << std::endl;
         return false;
     }
 
     bool isLeap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
     int daysInMonth[] = {31, 28 + isLeap, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    if (day < 1 || day > daysInMonth[month - 1]) {
+    if (day < 1 || day > daysInMonth[month - 1])
+    {
         std::cout << "Invalid day. Please enter a valid day for the specified month." << std::endl;
         return false;
     }
     return true;
 }
 
-std::string Date::getDate() {
+std::string Date::getDate()
+{
     char dateStr[11];
     snprintf(dateStr, sizeof(dateStr), "%02d/%02d/%04d", day, month, year);
     return std::string(dateStr);
 }
 
-int Date::countLeapYears(Date d) {
+int Date::countLeapYears(Date d)
+{
     int years = d.getYear();
-    if (d.getMonth() <= 2) {
+    if (d.getMonth() <= 2)
+    {
         years--;
     }
     return years / 4 - years / 100 + years / 400;
 }
 
-int Date::getTotalDays(Date d) {
+int Date::getTotalDays(Date d)
+{
     int monthDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     long totalDays = d.getYear() * 365 + countLeapYears(d);
 
-    for (int i = 0; i < d.getMonth() - 1; i++) {
+    for (int i = 0; i < d.getMonth() - 1; i++)
+    {
         totalDays += monthDays[i];
     }
 
@@ -93,9 +102,10 @@ int Date::getTotalDays(Date d) {
     return totalDays;
 }
 
-int Date::getDateDifference(Date dateOne, Date dateTwo) {
+int Date::getDateDifference(Date dateOne, Date dateTwo)
+{
     int totalDaysOne = getTotalDays(dateOne);
     int totalDaysTwo = getTotalDays(dateTwo);
 
-    return totalDaysTwo - totalDaysOne;
+    return totalDaysOne - totalDaysTwo;
 }

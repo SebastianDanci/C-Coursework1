@@ -16,18 +16,20 @@ Member::Member()
 
 std::string Member::getMemberID()
 {
-    return std::to_string(this->memberId);
+    return std::to_string(memberId);
 }
 
 std::vector<Book> Member::getBooksBorrowed()
 {
-    return this->booksLoaned;
+    return booksLoaned;
 }
 
 void Member::setBooksBorrowed(Book book)
 {
     if (!hasBorrowedThisBook(*this, book))
+    {
         booksLoaned.push_back(book);
+    }
     else
-        this->booksLoaned.erase(this->booksLoaned.begin() + std::stoi(book.getbookID()));
+        booksLoaned.erase(booksLoaned.begin() + std::stoi(book.getbookID()));
 }

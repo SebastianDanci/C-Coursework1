@@ -2,7 +2,7 @@
 
 std::string Person::getName()
 {
-    return this->name;
+    return name;
 }
 
 void Person::setName(std::string name)
@@ -12,20 +12,20 @@ void Person::setName(std::string name)
 
 std::string Person::getAdress()
 {
-    return this->adress;
+    return adress;
 }
 
 void Person::setAdress(std::string adress)
 {
-    this->adress=adress;
+    this->adress = adress;
 }
 
 std::string Person::getEmail()
 {
-    return this->email;
+    return email;
 }
 
 void Person::setEmail(std::string email)
 {
-    this->email=email;
+    this->email = email;
 }

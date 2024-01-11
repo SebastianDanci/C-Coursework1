@@ -10,7 +10,7 @@ private:
 
 public:
     Librarian(int staffID, std::string name, std::string adress, std::string email, int salary);
-    Librarian ();
+    Librarian();
     void addMember();
     void issueBook(int memberID, int bookID);
     void returnBook(int memberID, int bookID);

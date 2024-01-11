@@ -19,9 +19,9 @@ public:
     void setMonth(short unsigned int month);
     unsigned int getYear();
     void setYear(unsigned int year);
-    //make it so that it checks if the date is valid,like a possible date, and displays using cout the reason why the date is not valid and returns false, if its valid it just returns true
+    // returns true if the date if a possible real date
     bool isValid();
-    // make it so that it will return a string form dd/mm/yyyy
+    // returns a string form dd/mm/yyyy
     std::string getDate();
     static int getDateDifference(Date dateOne, Date dateTwo);
     static int getTotalDays(Date d);

@@ -6,11 +6,12 @@
 #include <limits>
 #include <sstream>
 #include <fstream>
+#include <filesystem>
+namespace fs = std::filesystem;
 
 Date currentDate;
 std::vector<Member> members;
 std::vector<Book> books;
-std::string sourceFile = "library_books.csv";
 bool isLastInputLine;
 
 const std::regex REGEX_EMAIL("[^ ]+@[^ ]+\\.[a-z]{2,3}");
@@ -22,12 +23,12 @@ const std::string GET_MEMBER_EMAIL = "Enter the member's email adress> ";
 const std::string GET_LIBRARIAN_NAME = "Enter your name> ";
 const std::string GET_LIBRARIAN_DUE_DATE = "Enter the due date.\nThe day, month and year should be separated by a space (dd mm yyyy)> ";
 
-const std::string MENU_INFO = "Type the number shown before each option to chose it.\n0. EXIT. ";
+const std::string MENU_INFO = "Type the number shown before each option to choose it.\n0. EXIT. ";
 const std::string MENU_ADD_MEMBER = "Add a new member;";
 const std::string MENU_ISSUE_BOOK = "Issue a book";
 const std::string MENU_RETURN_BOOK = "Return a book";
 const std::string MENU_DISPLAY_ALL_BOOKS = "Display the member's currently borrowed books;";
-const std::string MENU_CALCULATE_FINE = "Claculate fine for due books;";
+const std::string MENU_CALCULATE_FINE = "Calculate fine for due books;";
 const std::string MENU_MAKE_CHOICE = "Enter the choice> ";
 const std::string MENU_MEMBER_NAME = "Member name: ";
 const std::string MENU_MEMBER_ID = "Member ID: ";
@@ -38,16 +39,12 @@ const std::string MENU_ISSUE = "Please enter Member ID and the Book ID you want 
 const std::string MENU_ISSUE_ISSUE = "Cannot issue this book to this member!";
 const std::string MENU_RETURN = "Please enter Member ID and the Book ID you want to return:";
 const std::string MENU_RETURN_ISSUE = "There is no member with member ID:";
+const std::string MENU_MEMBER_ISSUE = "There are no members registered in the library";
 
 const std::vector<std::string> MENU = {MENU_INFO, MENU_ADD_MEMBER, MENU_ISSUE_BOOK, MENU_RETURN_BOOK, MENU_DISPLAY_ALL_BOOKS, MENU_CALCULATE_FINE, MENU_MAKE_CHOICE};
 
-const std::string CONFIG_CHANGE_FILE = "Change the book csv file;";
-const std::string CONFIG_CHANGE_DATE = "Enter the current date, The day, month and year should be separated by a space (dd mm yyyy)> ";
-const std::string CONFIG_PROCEED = "Start the program;";
-const std::string CONFIG_PROMPT_NEW_CSV = "\nEnter the name of the file (The file should be situated in the Data directory)> ";
+const std::string CONFIG_CHANGE_DATE = "Enter the new current date, The day, month and year should be separated by a space (dd mm yyyy)> ";
 const std::string CONFIG_START = "Staring Virtual Library Manager...\n";
-
-const std::vector<std::string> CONFIG = {MENU_INFO, CONFIG_CHANGE_FILE, CONFIG_PROCEED, MENU_MAKE_CHOICE};
 
 int getUserInt(std::string message, int min, int max)
 {
@@ -214,7 +211,6 @@ Date getUserDate(std::string message)
         {
             std::cout << "Error: " << ex.what() << "\nTry again.\n\n";
             std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
         catch (...)
         {
@@ -255,35 +251,28 @@ void printMenuOptions(std::vector<std::string> menu)
               << menu[menu.size() - 1];
 }
 
-int runConfigs()
-{
-    currentDate = getUserDate(CONFIG_CHANGE_DATE);
-    while (true)
-    {
-        int choice;
-        choice = getUserInt(CONFIG, 0, 2);
-        if (choice == 1)
-            changeCsv();
-        else
-        {
-            std::cout << CONFIG_START;
-            createBook();
-            return choice;
-        }
-    }
-}
-
-void changeCsv()
-{
-    sourceFile = getUserString(CONFIG_PROMPT_NEW_CSV, REGEX_ANY_STRING);
-}
-
 void runMenu()
 {
-    int choice, bookID;
+    int choice = 1, bookID;
     long unsigned int memberID;
+
+    std::string csvFile = findCsvFile();
+    if (csvFile.empty())
+    {
+        std::cout << "No CSV file found in the root folder." << std::endl;
+        choice = 0;
+    }
+    else
+    {
+        books = readBooksFromCsv(csvFile);
+        std::cout << CONFIG_START;
+    }
+    void createBook();
+
+    currentDate = getUserDate(CONFIG_CHANGE_DATE);
+    std::cout << "\nThe date is: " << currentDate.getDate();
     Librarian librarian;
-    choice = runConfigs();
+
     while (choice != 0)
     {
         choice = getUserInt(MENU, 0, 5);
@@ -337,50 +326,59 @@ void runMenu()
     }
     std::cout << MENU_EXIT;
 }
+std::string findCsvFile()
+{
+    // Construct the path to the "data" directory
+    fs::path dataDir = fs::current_path() / "../data";
 
-void createBook() {
-    std::string filePath = "../data/" + sourceFile; // Construct the file path
-    std::ifstream file(filePath);
-
-    if (!file.is_open()) {
-        std::cout << "Failed to open file: " << filePath << std::endl;
-        return;
+    // Check if the "data" directory exists
+    if (!fs::exists(dataDir) || !fs::is_directory(dataDir))
+    {
+        std::cout << "Data directory does not exist." << std::endl;
+        return "";
     }
 
+    // Search for CSV files in the "data" directory
+    for (const auto &entry : fs::directory_iterator(dataDir))
+    {
+        if (entry.path().extension() == ".csv")
+        {
+            return entry.path().string();
+        }
+    }
+    return "";
+}
+std::vector<Book> readBooksFromCsv(const std::string &filePath)
+{
+    std::vector<Book> books;
+    std::ifstream file(filePath);
     std::string line;
+
     // Skip the header line
     std::getline(file, line);
 
-    while (std::getline(file, line)) {
-        std::stringstream ss(line);
-        std::string token;
-        std::vector<std::string> tokens;
+    while (std::getline(file, line))
+    {
+        std::istringstream sstream(line);
+        std::string field;
+        std::vector<std::string> fields;
 
-        // Extract each token separated by commas
-        while (std::getline(ss, token, ',')) {
-            // Handle potential quoted fields (like book names with commas)
-            if (token.front() == '"' && token.back() != '"') {
-                std::string nextToken;
-                std::getline(ss, nextToken, ',');
-                token += ',' + nextToken;
-            }
-            // Remove potential quotes from the token
-            token.erase(remove(token.begin(), token.end(), '"'), token.end());
-            tokens.push_back(token);
+        // Handling CSV lines with potential commas inside quotes
+        while (sstream.good())
+        {
+            std::getline(sstream, field, ',');
+            // Add more sophisticated parsing if needed
+            fields.push_back(field);
         }
 
-        // Assuming the CSV format and Book constructor matches exactly:
-        // Book ID, Book Name, Author First Name, Author Last Name, Book Type
-        if (tokens.size() == 6) { // Ensure we have the correct number of tokens
-            int bookID = std::stoi(tokens[0]);
-            // Create a Book object
-            Book book(bookID, tokens[1], tokens[3], tokens[4]); // Skipping page count here
-            // Add the Book to the vector
+        // Create a Book object from fields (assuming correct order and format)
+        if (fields.size() >= 6)
+        {
+            int bookID = std::stoi(fields[0]);
+            Book book(bookID, fields[1], fields[3], fields[4]);
             books.push_back(book);
-        } else {
-            std::cerr << "Invalid line format: " << line << std::endl;
         }
     }
 
-    file.close();
+    return books;
 }
