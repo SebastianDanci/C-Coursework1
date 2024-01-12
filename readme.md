@@ -4,8 +4,6 @@ Updated: 12/01/2023
 
 Library Management System
 
-
-
 Overview
 
 This Library Management System is a software designed to manage basic library functions efficiently. The system allows for managing books, members, librarians, and related activities like borrowing and returning books.
@@ -63,12 +61,6 @@ include: Contains all header files with class and function declarations.
 src: Contains source files implementing the functionalities.
 
 tests: Contains test cases for the project (if any).
-
-
-
-Author
-
-M00886707 sd1507@mdx.ac.uk
 
 
 
