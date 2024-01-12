@@ -78,6 +78,7 @@ const std::string ERROR_INPUT_FAILED = "Failed to read input. Please try again.\
 const std::string ERROR_DATE_DAY =  "Invalid day. Please enter a valid day for the specified month.";
 const std::string ERROR_DATE_MONTH =  "Invalid month. Please enter a month between 1 and 12.";
 const std::string ERROR_DATE_YEAR = "Invalid year. Please enter a year between 1900 and 2100.";
+const std::string ERROR_PAST_DATE = "\nDue date cannot be in the past.\n";
 
 // Reads an integer input from the user, ensuring it is within a specified range.
 int getUserInt(std::string message, int min, int max)
@@ -407,10 +408,10 @@ void runMenu()
 // Recursively searches for the first CSV file within the root folder and its subdirectories.
 std::string findCsvFile()
 {
-    // Start from the directory where the executable is located (assuming this is root/bin)
+    // Start from the directory where the executable is located
     fs::path execPath = fs::current_path();
 
-    // Navigate up two levels to get to the root directory
+    // Navigate up one levele to get to the root directory
     fs::path rootDir = execPath.parent_path();
 
     // Recursive directory iterator to go through all directories and files from the root
@@ -423,44 +424,56 @@ std::string findCsvFile()
             return entry.path().string();
         }
     }
-
-    // Inform the user if no CSV file is found
     std::cout << CONFIG_ERROR_CSV << std::endl;
     return ""; // Return an empty string if no CSV file is found
 }
 
-// Reads book data from a CSV file and creates a vector of Book objects.
-std::vector<Book> readBooksFromCsv(const std::string &filePath)
-{
-    std::vector<Book> books;      // Initialize a vector to hold the book objects
-    std::ifstream file(filePath); // Open the file
+std::vector<Book> readBooksFromCsv(const std::string &filePath) {
+    std::vector<Book> books;
+    std::ifstream file(filePath);
     std::string line;
 
     // Skip the header line in the CSV file
     std::getline(file, line);
 
     // Read each line from the file
-    while (std::getline(file, line))
-    {
-        std::istringstream sstream(line); // Use a string stream to parse the line
+    while (std::getline(file, line)) {
+        std::istringstream sstream(line);
         std::string field;
-        std::vector<std::string> fields; // To hold each field from the line
+        std::vector<std::string> fields;
+        bool insideQuotes = false;
+        std::ostringstream currentField;
 
-        // Split the line into fields based on commas
-        while (sstream.good())
-        {
-            std::getline(sstream, field, ',');
-            fields.push_back(field);
+        // Parse each character in the line
+        for (char c : line) {
+            if (c == '"') {
+                insideQuotes = !insideQuotes; // Toggle the state of being inside quotes
+            } else if (c == ',' && !insideQuotes) {
+                // If not inside quotes, commas are field separators
+                fields.push_back(currentField.str());
+                currentField.str(""); // Reset the current field string stream
+            } else {
+                currentField << c; // Add the character to the current field
+            }
         }
+        // Don't forget to add the last field
+        fields.push_back(currentField.str());
 
-        // Create a Book object if there are enough fields
-        if (fields.size() >= 6)
-        {
-            int bookID = std::stoi(fields[0]);                  // Convert book ID from string to int
-            Book book(bookID, fields[1], fields[3], fields[4]); // Create a Book object
-            books.push_back(book);                              // Add the book to the vector
+        // Expecting at least 6 fields: ID, Title, Page Count, Author First Name, Author Last Name, Genre
+        if (fields.size() >= 6) {
+            int bookID = std::stoi(fields[0]);
+            std::string bookName = fields[1];
+            std::string authorFirstName = fields[3];
+            std::string authorLastName = fields[4];
+
+            // Handle potential quotes in book name
+            if (bookName.front() == '"' && bookName.back() == '"') {
+                bookName = bookName.substr(1, bookName.length() - 2); // Remove the surrounding quotes
+            }
+
+            Book book(bookID, bookName, authorFirstName, authorLastName);
+            books.push_back(book);
         }
     }
-
-    return books; // Return the vector of books
+    return books;
 }
