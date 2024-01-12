@@ -1,4 +1,12 @@
-#pragma once
+#ifndef DATE_H
+#define DATE_H
+/*
+    Date.h
+    Author: M00886707 <sd1507@mdx.ac.uk>
+    Created: 09/01/2023
+    Updated: 12/01/2023
+*/
+
 #include <string>
 #include <iostream>
 #include <cmath>
@@ -23,7 +31,12 @@ public:
     bool isValid();
     // returns a string form dd/mm/yyyy
     std::string getDate();
+    // returns the difference between dateOne and dateTwo
     static int getDateDifference(Date dateOne, Date dateTwo);
+    // returns the total number of days since day 0 month 0 year 0
     static int getTotalDays(Date d);
+    // helper function for getTotalDays
     static int countLeapYears(Date d);
 };
+
+#endif

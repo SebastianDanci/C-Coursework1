@@ -1,4 +1,12 @@
-#pragma once
+#ifndef LIBRARIAN_H
+#define LIBRARIAN_H
+/*
+    Librarian.h
+    Author: M00886707 <sd1507@mdx.ac.uk>
+    Created: 09/01/2023
+    Updated: 12/01/2023
+*/
+
 #include <string>
 #include "person.h"
 
@@ -21,3 +29,5 @@ public:
     int getSalary();
     void setSalary(int salary);
 };
+
+#endif

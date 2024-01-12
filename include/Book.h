@@ -1,4 +1,11 @@
-#pragma once
+#ifndef BOOK_H
+#define BOOK_H
+/*
+    Book.h
+    Author: M00886707 <sd1507@mdx.ac.uk>
+    Created: 09/01/2023
+    Updated: 12/01/2023
+*/
 
 #include <string>
 #include "Date.h"
@@ -27,3 +34,5 @@ public:
     void returnBook();
     void borrowBook(Member borrower, Date dueDate);
 };
+
+#endif

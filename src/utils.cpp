@@ -1,3 +1,9 @@
+/*
+    utils.cpp
+    Author: M00886707 <sd1507@mdx.ac.uk>
+    Created: 11/01/2023
+    Updated: 12/01/2023
+*/
 #include "../include/utils.h"
 #include "../include/Book.h"
 #include "../include/Librarian.h"
@@ -145,13 +151,11 @@ std::string getUserString(std::string message, std::regex pattern)
         {
             if (std::cin.eof())
             {
-                // End-of-file was encountered
-                std::cin.clear(); // Clear the EOF flag
+                std::cin.clear();
                 std::cout << "End of file encountered. Please provide input again.\n";
             }
             else
             {
-                // Input stream is in an error state
                 std::cin.clear();
                 std::cout << "Failed to read input. Please try again.\n";
             }
@@ -326,19 +330,17 @@ void runMenu()
     }
     std::cout << MENU_EXIT;
 }
+
 std::string findCsvFile()
 {
-    // Construct the path to the "data" directory
     fs::path dataDir = fs::current_path() / "../data";
 
-    // Check if the "data" directory exists
     if (!fs::exists(dataDir) || !fs::is_directory(dataDir))
     {
         std::cout << "Data directory does not exist." << std::endl;
         return "";
     }
 
-    // Search for CSV files in the "data" directory
     for (const auto &entry : fs::directory_iterator(dataDir))
     {
         if (entry.path().extension() == ".csv")
@@ -348,13 +350,13 @@ std::string findCsvFile()
     }
     return "";
 }
+
 std::vector<Book> readBooksFromCsv(const std::string &filePath)
 {
     std::vector<Book> books;
     std::ifstream file(filePath);
     std::string line;
 
-    // Skip the header line
     std::getline(file, line);
 
     while (std::getline(file, line))
@@ -363,15 +365,12 @@ std::vector<Book> readBooksFromCsv(const std::string &filePath)
         std::string field;
         std::vector<std::string> fields;
 
-        // Handling CSV lines with potential commas inside quotes
         while (sstream.good())
         {
             std::getline(sstream, field, ',');
-            // Add more sophisticated parsing if needed
             fields.push_back(field);
         }
 
-        // Create a Book object from fields (assuming correct order and format)
         if (fields.size() >= 6)
         {
             int bookID = std::stoi(fields[0]);

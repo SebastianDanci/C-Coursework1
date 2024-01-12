@@ -1,3 +1,9 @@
+/*
+    Person.cpp
+    Author: M00886707 <sd1507@mdx.ac.uk>
+    Created: 09/01/2023
+    Updated: 12/01/2023
+*/
 #include "../include/Person.h"
 
 std::string Person::getName()

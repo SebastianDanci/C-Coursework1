@@ -1,4 +1,11 @@
-#pragma once
+#ifndef PERSON_H
+#define PERSON_H
+/*
+    Person.h
+    Author: M00886707 <sd1507@mdx.ac.uk>
+    Created: 09/01/2023
+    Updated: 12/01/2023
+*/
 
 #include <string>
 
@@ -22,3 +29,5 @@ public:
     std::string getEmail();
     void setEmail(std::string email);
 };
+
+#endif

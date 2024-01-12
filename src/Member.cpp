@@ -1,3 +1,9 @@
+/*
+    Member.cpp
+    Author: M00886707 <sd1507@mdx.ac.uk>
+    Created: 11/01/2023
+    Updated: 12/01/2023
+*/
 #include "../include/Member.h"
 #include "../include/Book.h"
 #include "../include/utils.h"
