@@ -50,9 +50,6 @@ extern const std::string CONFIG_START;
 extern const std::string CONFIG_ERROR_CSV;
 extern const std::string CONFIG_ERROR_ROOT;
 extern const std::string MENU_MEMBER_ISSUE;
-
-extern const std::vector<std::string> MENU;
-
 extern const std::string ERROR_UNKNOWN;
 extern const std::string ERROR_INTEGER;
 extern const std::string ERROR_PATTERN;
@@ -62,6 +59,11 @@ extern const std::string ERROR_INPUT_FAILED;
 extern const std::string ERROR_DATE_DAY;
 extern const std::string ERROR_DATE_MONTH;
 extern const std::string ERROR_DATE_YEAR;
+extern const std::string ERROR_PAST_DATE;
+
+extern const std::vector<std::string> MENU;
+
+
 
 // Regex for user validation
 
@@ -69,14 +71,19 @@ extern const std::regex REGEX_EMAIL;
 extern const std::regex REGEX_ANY_STRING;
 extern const std::regex REGEX_FULL_NAME;
 
+
+
 // Functions for user input
 
 // Returns an integer in an interval given by the user after a message prompt
 extern int getUserInt(std::string message, int min, int max);
+
 // Returns an integer in an interval given by the user after a vector / menu message prompt
 extern int getUserInt(std::vector<std::string> message, int min, int max);
+
 // Returns a string checked by a regex pattern given by the user after message prompt
 extern std::string getUserString(std::string message, std::regex pattern);
+
 // Returns a valid, possible, date in form of a Date object given by the user after message prompt
 extern Date getUserDate(std::string message);
 
@@ -85,14 +92,19 @@ extern Date getUserDate(std::string message);
 // Returns true if the member is currently loaning the book
 bool hasBorrowedThisBook(Member member, Book book);
 
+
+
 // Funcitons related to the menu and main program loop
 
 // Executes the main menu loop
 extern void runMenu();
+
 // Prints the options stored in a vector that guide the user
 extern void printMenuOptions(std::vector<std::string> menu);
+
 // Returns the path of the cvs file
 extern std::string findCsvFile();
+
 // Creates book objects using the values in the csv file and pushes them in the books vector
 std::vector<Book> readBooksFromCsv(const std::string &filePath);
 
