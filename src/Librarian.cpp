@@ -41,8 +41,13 @@ void Librarian::issueBook(int memberID, int bookID)
     // Check if the book is not already issued
     if (books[bookID - 1].getDueDate().getDay() == 0)
     {
+        Date date;
         // Get due date from librarian, set the book as borrowed, and update member's borrowed books
-        Date date = getUserDate(GET_LIBRARIAN_DUE_DATE);
+        while(true){
+        date = getUserDate(GET_LIBRARIAN_DUE_DATE);
+        if(Date::getDateDifference(currentDate, date)<=0) break;
+        else std::cout<<ERROR_PAST_DATE;
+        }
         books[bookID - 1].borrowBook(members[memberID - 1], date);
         members[memberID - 1].setBooksBorrowed(books[bookID - 1]);
     }
