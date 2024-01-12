@@ -62,7 +62,7 @@ const std::vector<std::string> MENU = {
     MENU_DISPLAY_ALL_BOOKS, MENU_CALCULATE_FINE, MENU_CHANGE_DATE, MENU_MAKE_CHOICE};
 
 // Additional configuration prompts
-const std::string CONFIG_CHANGE_DATE = "Enter the new date (format: dd mm yyyy)> ";
+const std::string CONFIG_CHANGE_DATE = "Enter the current date (format: dd mm yyyy)> ";
 const std::string CONFIG_START = "Starting Virtual Library Manager...\n";
 const std::string CONFIG_ERROR_CSV = "No CSV file found in the root folder or its subdirectories.";
 const std::string CONFIG_ERROR_ROOT = "No CSV file found in the root folder.";
