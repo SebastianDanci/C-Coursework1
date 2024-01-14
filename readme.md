@@ -1,6 +1,6 @@
 Author: M00886707 <sd1507@mdx.ac.uk>
 Created: 09/01/2023
-Updated: 12/01/2023
+Updated: 15/01/2023
 
 Library Management System
 
@@ -30,8 +30,6 @@ A compiler supporting C++17 or higher
 
 Filesystem support
 
-Installation
-
 
 
 To compile and run this project:
@@ -52,16 +50,14 @@ The system will prompt you through a menu-driven interface to perform various ac
 
 Directory Structure
 
-bin: Contains the compiled binaries.
-
-data: Directory to store CSV files containing book data.
+bin: Will contain the compiled binaries.
 
 include: Contains all header files with class and function declarations.
 
 src: Contains source files implementing the functionalities.
 
-tests: Contains test cases for the project (if any).
+tests: Contains test cases for the project.
 
 
 
-The program can only handle one csv file at a time, it will search troughout the root directory for the file pefferably it should be located inside the data directory.
+The program can only handle one csv file at a time, it will search troughout the root directory and all it's sub-directories for the file.
