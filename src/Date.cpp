@@ -2,7 +2,7 @@
     Date.cpp
     Author: M00886707 <sd1507@mdx.ac.uk>
     Created: 11/01/2023
-    Updated: 12/01/2023
+    Updated: 15/01/2023
 */
 #include "../include/Date.h"
 #include "../include/utils.h"
@@ -152,4 +152,41 @@ int Date::getDateDifference(Date dateOne, Date dateTwo)
 
     // Return the difference in total days
     return totalDaysOne - totalDaysTwo;
+}
+
+Date Date::addDays(int numDays, Date date) {
+    const int daysPerMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+    // Adding the days
+    date.day += numDays;
+
+    // Handling the overflow of days into months and possibly years
+    while (date.day > daysPerMonth[date.month - 1]) {
+        // Check for leap year
+        bool isLeap = (date.year % 4 == 0 && (date.year % 100 != 0 || date.year % 400 == 0));
+        if(isLeap && date.month == 2) { // Special case for February in a leap year
+            if(date.day <= 29) {
+                break;
+            }
+            date.day -= 29;
+        } else {
+            date.day -= daysPerMonth[date.month - 1];
+        }
+
+        date.month++;
+
+        if (date.month > 12) { // overflow to next year
+            date.month = 1;
+            date.year++;
+        }
+    }
+
+    // Ensure the new date is valid
+    if (!date.isValid()) {
+        // Handle error for invalid date result
+        std::cout <<ERROR_DATE_INVALID<< std::endl;
+        // Potentially set the date to a known valid state or handle the error appropriately
+    }
+
+    return date;
 }

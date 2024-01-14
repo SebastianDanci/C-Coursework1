@@ -19,7 +19,6 @@ private:
     std::vector<Book> booksLoaned;
 
 public:
-    // constructor for member class
     Member(int memberId, std::string name, std::string adress, std::string email);
     Member();
     std::string getMemberID();

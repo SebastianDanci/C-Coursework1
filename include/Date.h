@@ -4,7 +4,7 @@
     Date.h
     Author: M00886707 <sd1507@mdx.ac.uk>
     Created: 09/01/2023
-    Updated: 12/01/2023
+    Updated: 15/01/2023
 */
 
 #include <string>
@@ -37,6 +37,8 @@ public:
     static int getTotalDays(Date d);
     // helper function for getTotalDays
     static int countLeapYears(Date d);
+    // adds a number of days to a date
+    static Date addDays(int numDays, Date date);
 };
 
 #endif

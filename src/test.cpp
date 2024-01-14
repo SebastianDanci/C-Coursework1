@@ -1,3 +1,10 @@
+/*
+    test.cpp
+    Author: M00886707 <sd1507@mdx.ac.uk>
+    Created: 12/01/2023
+    Updated: 15/01/2023
+*/
+
 #define CATCH_CONFIG_MAIN
 #include "../include/catch.hpp"
 #include "../include/Book.h"
