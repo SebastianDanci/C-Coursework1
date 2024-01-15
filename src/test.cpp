@@ -40,7 +40,7 @@ TEST_CASE("Test hasBorrowedThisBook function", "[Utils]")
 
     SECTION("Member has borrowed the book")
     {
-        member.setBooksBorrowed(book); // Simulating that the member has borrowed the book
+        member.setBooksBorrowed(book); 
         REQUIRE(hasBorrowedThisBook(member, book) == true);
     }
 }
@@ -49,7 +49,7 @@ TEST_CASE("Test findCsvFile function", "[Utils]")
 {
     SECTION("CSV file is found")
     {
-        // Assuming there is a CSV file in the directory
+
         REQUIRE_FALSE(findCsvFile().empty());
     }
 }
@@ -59,14 +59,14 @@ TEST_CASE("Test readBooksFromCsv function", "[Utils]")
     SECTION("CSV file contains valid book data")
     {
         auto books = readBooksFromCsv(findCsvFile());
-        REQUIRE_FALSE(books.empty()); // Expecting some books to be read
+        REQUIRE_FALSE(books.empty()); 
     }
 
     SECTION("CSV file is empty or invalid")
     {
         std::string invalidCsvPath = "../include/file.csv";
         auto books = readBooksFromCsv(invalidCsvPath);
-        REQUIRE(books.empty()); // Expecting no books to be read
+        REQUIRE(books.empty()); 
     }
 }
 
@@ -97,7 +97,7 @@ TEST_CASE("Date::isValid tests", "[Date]")
 
     SECTION("Invalid date")
     {
-        Date invalidDate(31, 2, 2021); // February 31st is an invalid date
+        Date invalidDate(31, 2, 2021); 
         REQUIRE(invalidDate.isValid() == false);
     }
 }
@@ -148,7 +148,6 @@ TEST_CASE("Date::addDays method", "[Date]") {
 
     SECTION("Add positive number of days") {
         Date newDate = Date::addDays(10, baseDate);
-        // Assuming month has 30 days
         REQUIRE(newDate.getDate() == "25/06/2021");
     }
 }
@@ -188,11 +187,11 @@ TEST_CASE("Date total days calculation", "[Date]") {
     Date date1(1, 1, 2000);
 
     SECTION("Start of millennium") {
-        REQUIRE(Date::getTotalDays(date1) > 0);  // Exact value depends on the implementation
+        REQUIRE(Date::getTotalDays(date1) > 0);
     }
 
     SECTION("Current date") {
-        Date currentDate = getCurrentDate();  // Assuming this function exists
+        Date currentDate = getCurrentDate();
         REQUIRE(Date::getTotalDays(currentDate) > Date::getTotalDays(date1));
     }
 }
