@@ -49,7 +49,7 @@ void Member::setBooksBorrowed(Book book)
     }
     else
     {
-        // If the book is already borrowed, remove it from the list using its ID
+        // If the book is already borrowed, remove it from the list
         booksLoaned.erase(booksLoaned.begin() + std::stoi(book.getbookID()) - 1);
     }
 }

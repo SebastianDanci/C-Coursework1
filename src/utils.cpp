@@ -53,7 +53,6 @@ const std::string MENU_BOOK_ID = "Book ID: ";
 const std::string MENU_MEMBER_ADDRESS = "Member Adress: ";
 const std::string MENU_MEMBER_EMAIL = "Member Email: ";
 const std::string MENU_MEMBER_ADDED = "A new member has been added";
-const std::string MENU_EXIT = "Thank you for using the Virtual Library Manager.\n\nEXITING...";
 const std::string MENU_ISSUE = "Enter the Member ID and Book ID for issuing:";
 const std::string MENU_ISSUE_ISSUE = "Book cannot be issued to this member.";
 const std::string MENU_RETURN = "Enter the Member ID and Book ID for returning:";
@@ -76,6 +75,8 @@ const std::string CONFIG_CHANGE_DATE = "Enter the current date (format: dd mm yy
 const std::string CONFIG_START = "Starting Virtual Library Manager...\n";
 const std::string CONFIG_ERROR_CSV = "No CSV file found in the root folder or its subdirectories.";
 const std::string CONFIG_ERROR_ROOT = "No CSV file found in the root folder.";
+const std::string CONFIG_EXIT = "\n\nThank you for using the Virtual Library Manager.\n\nEXITING...";
+
 
 // Error messages for input failiure
 const std::string ERROR_UNKNOWN = "\nAn unknown error occurred. Try again.\n\n";
@@ -457,7 +458,7 @@ void runMenu()
     }
 
     // Print exit message when leaving the menu
-    std::cout << MENU_EXIT;
+    std::cout << CONFIG_EXIT;
 }
 
 // Recursively searches for the first CSV file within the root folder and its subdirectories.
@@ -591,6 +592,6 @@ void displayMemberDetails()
     else
     {
         std::cout << std::endl
-                  << MENU_RETURN_ISSUE;
+                  <<MENU_RETURN_ISSUE<< memberId;
     }
 }

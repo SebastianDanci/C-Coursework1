@@ -51,7 +51,7 @@ void Librarian::issueBook(int memberID, int bookID)
     }
     else
     {
-        std::cout << MENU_ALREADY_ISSUED;
+        std::cout <<std::endl<<std::endl<< MENU_ALREADY_ISSUED;
     }
 }
 

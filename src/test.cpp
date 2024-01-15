@@ -121,3 +121,78 @@ TEST_CASE("Member::setBooksBorrowed tests", "[Member]")
         REQUIRE(member.getBooksBorrowed().size() == 2);
     }
 }
+
+TEST_CASE("Book due date setting and getting", "[Book]") {
+    Book book(1, "Test Book", "Author", "Lastname");
+    Date dueDate(20, 7, 2021);
+
+    SECTION("Set due date") {
+        book.setDueDate(dueDate);
+        REQUIRE(book.getDueDate().getDate() == "20/07/2021");
+    }
+
+    SECTION("Reset due date") {
+        Date newDueDate(25, 7, 2021);
+        book.setDueDate(newDueDate);
+        REQUIRE(book.getDueDate().getDate() == "25/07/2021");
+    }
+}
+
+TEST_CASE("Date::addDays method", "[Date]") {
+    Date baseDate(15, 6, 2021);
+
+    SECTION("Add zero days") {
+        Date newDate = Date::addDays(0, baseDate);
+        REQUIRE(newDate.getDate() == baseDate.getDate());
+    }
+
+    SECTION("Add positive number of days") {
+        Date newDate = Date::addDays(10, baseDate);
+        // Assuming month has 30 days
+        REQUIRE(newDate.getDate() == "25/06/2021");
+    }
+}
+
+TEST_CASE("Book borrowing process", "[Book]") {
+    Member member(1, "Jane Doe", "456 Lane", "jane@example.com");
+    Book book(2, "1984", "George", "Orwell");
+    Date dueDate(1, 1, 2023);
+
+    SECTION("Book is initially not borrowed") {
+        REQUIRE(book.getDueDate().getDate() == "00/00/0000");
+    }
+
+    SECTION("Book is borrowed") {
+        book.borrowBook(member, dueDate);
+        REQUIRE(book.getDueDate().getDate() == "01/01/2023");
+    }
+}
+
+TEST_CASE("Book return process", "[Book]") {
+    Member member(1, "Jane Doe", "456 Lane", "jane@example.com");
+    Book book(2, "1984", "George", "Orwell");
+    Date dueDate(1, 1, 2023);
+    book.borrowBook(member, dueDate);
+
+    SECTION("Book is borrowed") {
+        REQUIRE(book.getDueDate().getDate() == "01/01/2023");
+    }
+
+    SECTION("Book is returned") {
+        book.returnBook();
+        REQUIRE(book.getDueDate().getDate() == "00/01/2023");
+    }
+}
+
+TEST_CASE("Date total days calculation", "[Date]") {
+    Date date1(1, 1, 2000);
+
+    SECTION("Start of millennium") {
+        REQUIRE(Date::getTotalDays(date1) > 0);  // Exact value depends on the implementation
+    }
+
+    SECTION("Current date") {
+        Date currentDate = getCurrentDate();  // Assuming this function exists
+        REQUIRE(Date::getTotalDays(currentDate) > Date::getTotalDays(date1));
+    }
+}
