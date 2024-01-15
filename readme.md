@@ -56,7 +56,7 @@ include: Contains all header files with class and function declarations.
 
 src: Contains source files implementing the functionalities.
 
-tests: Contains test cases for the project.
+data: It's recommended to put the csv file here
 
 
 
